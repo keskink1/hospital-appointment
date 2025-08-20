@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Hospital-Appointment
+  datasource:
+    url: jdbc:mysql://localhost:3306/hospital_app_db?createDatabaseIfNotExist=true
+    username: root
+    password: 1234
+  jpa:
+    show-sql: true
