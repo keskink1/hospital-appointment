@@ -1,11 +1,12 @@
 package com.keskin.hospitalapp.controllers;
 
-import com.keskin.hospitalapp.dto.DoctorDto;
-import com.keskin.hospitalapp.dto.PatientDto;
-import com.keskin.hospitalapp.dto.requests.doctor.CreateDoctorRequestDto;
-import com.keskin.hospitalapp.dto.requests.doctor.UpdateDoctorRequestDto;
-import com.keskin.hospitalapp.dto.responses.ApiResponseDto;
-import com.keskin.hospitalapp.service.impl.DoctorServiceImpl;
+import com.keskin.hospitalapp.dtos.DoctorDto;
+import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
+import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.responses.ApiResponseDto;
+import com.keskin.hospitalapp.service.IDoctorService;
 import com.keskin.hospitalapp.utils.MessageResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +25,7 @@ import java.util.Locale;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/api/doctors",  produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+@RequestMapping(value = "/api/doctors", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 @Validated
 @Tag(
         name = "REST APIs for hospital app",
@@ -32,11 +33,11 @@ import java.util.Locale;
 )
 public class DoctorController {
 
-    private final DoctorServiceImpl doctorService;
+    private final IDoctorService doctorService;
     private final MessageResponseUtil responseUtil;
 
     @GetMapping
-    public ResponseEntity<ApiResponseDto<List<DoctorDto>>> getAllDoctors(Locale locale){
+    public ResponseEntity<ApiResponseDto<List<DoctorDto>>> getAllDoctors(Locale locale) {
 
         List<DoctorDto> doctorDto = doctorService.getAllDoctors();
 
@@ -58,7 +59,7 @@ public class DoctorController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/createDoctor")
-    public ResponseEntity<ApiResponseDto<DoctorDto>> createDoctor(Locale locale, @Valid @RequestBody CreateDoctorRequestDto request){
+    public ResponseEntity<ApiResponseDto<DoctorDto>> createDoctor(Locale locale, @Valid @RequestBody CreateDoctorRequestDto request) {
         DoctorDto dto = doctorService.createDoctor(request);
 
         return responseUtil.createResponse(
@@ -80,7 +81,7 @@ public class DoctorController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PutMapping("/updateDoctor/{id}")
-    public ResponseEntity<ApiResponseDto<DoctorDto>> updateDoctor(Locale locale, @Valid @RequestBody UpdateDoctorRequestDto request, @PathVariable Long id){
+    public ResponseEntity<ApiResponseDto<DoctorDto>> updateDoctor(Locale locale, @Valid @RequestBody UpdateDoctorRequestDto request, @PathVariable Long id) {
         DoctorDto dto = doctorService.updateDoctor(request, id);
 
         return responseUtil.createResponse(
@@ -101,7 +102,7 @@ public class DoctorController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @DeleteMapping("/deleteDoctor/{id}")
-    public ResponseEntity<ApiResponseDto<Void>> deleteDoctor(Locale locale, @PathVariable Long id){
+    public ResponseEntity<ApiResponseDto<Void>> deleteDoctor(@PathVariable Long id) {
         doctorService.deleteDoctor(id);
 
         return ResponseEntity.noContent().build();
@@ -129,6 +130,34 @@ public class DoctorController {
                 patients,
                 locale
         );
+    }
+
+
+    @PatchMapping("/{id}/change-password")
+    public ResponseEntity<Void> changePassword(
+            @PathVariable Long id,
+            @Valid @RequestBody ChangePasswordRequest request
+    ) {
+        doctorService.changeDoctorPassword(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{doctorId}/patients/{patientId}")
+    public ResponseEntity<Void> addPatient(
+            @PathVariable Long doctorId,
+            @PathVariable Long patientId
+    ) {
+        doctorService.addPatientToDoctor(doctorId, patientId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{doctorId}/patients/{patientId}")
+    public ResponseEntity<Void> removePatient(
+            @PathVariable Long doctorId,
+            @PathVariable Long patientId
+    ) {
+        doctorService.removePatientFromDoctor(doctorId, patientId);
+        return ResponseEntity.noContent().build();
     }
 
 }

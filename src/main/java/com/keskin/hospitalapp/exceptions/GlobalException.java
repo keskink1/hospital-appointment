@@ -1,6 +1,6 @@
 package com.keskin.hospitalapp.exceptions;
 
-import com.keskin.hospitalapp.dto.ErrorResponseDto;
+import com.keskin.hospitalapp.dtos.ErrorResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

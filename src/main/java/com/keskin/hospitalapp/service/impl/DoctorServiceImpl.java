@@ -1,20 +1,22 @@
 package com.keskin.hospitalapp.service.impl;
 
-import com.keskin.hospitalapp.dto.DoctorDto;
-import com.keskin.hospitalapp.dto.PatientDto;
-import com.keskin.hospitalapp.dto.requests.doctor.CreateDoctorRequestDto;
-import com.keskin.hospitalapp.dto.requests.doctor.UpdateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.DoctorDto;
+import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
+import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
 import com.keskin.hospitalapp.entity.Doctor;
+import com.keskin.hospitalapp.entity.Patient;
 import com.keskin.hospitalapp.exceptions.*;
 import com.keskin.hospitalapp.mapper.DoctorMapper;
 import com.keskin.hospitalapp.mapper.PatientMapper;
 import com.keskin.hospitalapp.repository.DoctorRepository;
+import com.keskin.hospitalapp.repository.PatientRepository;
 import com.keskin.hospitalapp.service.IDoctorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class DoctorServiceImpl implements IDoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
     private final DoctorMapper doctorMapper;
     private final PatientMapper patientMapper;
 
@@ -124,16 +127,10 @@ public class DoctorServiceImpl implements IDoctorService {
 
     @Override
     public void deleteDoctor(Long id) {
-        Doctor doctor = doctorRepository.findByIdAndIsDeletedFalse(id)
+        Doctor doctor = doctorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", id.toString()));
 
-        if (!doctor.getPatients().isEmpty()) {
-            throw new DoctorHasPatientsException(
-                    "Doctor cannot be deleted. Remove associated patients first!"
-            );
-        }
-        //soft delete
-        doctor.setIsDeleted(true);
+        doctor.softDelete();
         doctorRepository.save(doctor);
     }
 
@@ -148,4 +145,36 @@ public class DoctorServiceImpl implements IDoctorService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void addPatientToDoctor(Long doctorId, Long patientId) {
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", doctorId.toString()));
+
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", patientId.toString()));
+
+        doctor.addPatient(patient);
+        doctorRepository.save(doctor);
+    }
+
+    @Override
+    public void changeDoctorPassword(Long doctorId, ChangePasswordRequest request) {
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", doctorId.toString()));
+
+        doctor.changePassword(request.getOldPassword(), request.getNewPassword());
+        doctorRepository.save(doctor);
+    }
+
+    @Override
+    public void removePatientFromDoctor(Long doctorId, Long patientId) {
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", doctorId.toString()));
+
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", patientId.toString()));
+
+        doctor.removePatient(patient);
+        doctorRepository.save(doctor);
+    }
 }

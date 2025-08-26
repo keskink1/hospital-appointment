@@ -1,9 +1,8 @@
 package com.keskin.hospitalapp.service;
 
-import com.keskin.hospitalapp.dto.PatientDto;
-import com.keskin.hospitalapp.dto.requests.patient.CreatePatientRequestDto;
-import com.keskin.hospitalapp.dto.requests.patient.UpdatePatientRequestDto;
-import com.keskin.hospitalapp.entity.Doctor;
+import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.requests.patient.CreatePatientRequestDto;
+import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
 import com.keskin.hospitalapp.entity.Patient;
 
 import java.util.List;
