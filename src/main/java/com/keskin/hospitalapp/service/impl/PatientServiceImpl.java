@@ -1,10 +1,8 @@
 package com.keskin.hospitalapp.service.impl;
 
-import com.keskin.hospitalapp.dto.PatientDto;
-import com.keskin.hospitalapp.dto.requests.doctor.CreateDoctorRequestDto;
-import com.keskin.hospitalapp.dto.requests.patient.CreatePatientRequestDto;
-import com.keskin.hospitalapp.dto.requests.patient.UpdatePatientRequestDto;
-import com.keskin.hospitalapp.entity.Doctor;
+import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.requests.patient.CreatePatientRequestDto;
+import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
 import com.keskin.hospitalapp.entity.Patient;
 import com.keskin.hospitalapp.exceptions.*;
 import com.keskin.hospitalapp.mapper.PatientMapper;
@@ -91,8 +89,9 @@ public class PatientServiceImpl implements IPatientService {
         Patient patient = patientRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", id.toString()));
 
-        patient.setIsDeleted(true);
+        patient.softDelete();
         patientRepository.save(patient);
     }
+
 
 }

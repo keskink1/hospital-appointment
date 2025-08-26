@@ -1,10 +1,9 @@
 package com.keskin.hospitalapp.mapper;
 
-import com.keskin.hospitalapp.dto.DoctorDto;
-import com.keskin.hospitalapp.dto.PatientDto;
-import com.keskin.hospitalapp.dto.requests.doctor.CreateDoctorRequestDto;
-import com.keskin.hospitalapp.dto.requests.doctor.UpdateDoctorRequestDto;
-import com.keskin.hospitalapp.dto.requests.patient.UpdatePatientRequestDto;
+import com.keskin.hospitalapp.dtos.DoctorDto;
+import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
 import com.keskin.hospitalapp.entity.Doctor;
 import com.keskin.hospitalapp.entity.Patient;
 import org.mapstruct.Mapper;
@@ -23,6 +22,7 @@ public interface DoctorMapper {
 
     Set<PatientDto> patientsToPatientDtos(Set<Patient> patients);
 
+    @Mapping(target = "password", source = "password")
     Doctor createRequestToEntity(CreateDoctorRequestDto request);
 
     DoctorDto updateRequestToDto(UpdateDoctorRequestDto request);

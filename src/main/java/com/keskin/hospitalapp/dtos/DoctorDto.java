@@ -1,4 +1,4 @@
-package com.keskin.hospitalapp.dto;
+package com.keskin.hospitalapp.dtos;
 
 import lombok.*;
 

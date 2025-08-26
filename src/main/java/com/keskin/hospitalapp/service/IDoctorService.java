@@ -1,9 +1,10 @@
 package com.keskin.hospitalapp.service;
 
-import com.keskin.hospitalapp.dto.DoctorDto;
-import com.keskin.hospitalapp.dto.PatientDto;
-import com.keskin.hospitalapp.dto.requests.doctor.CreateDoctorRequestDto;
-import com.keskin.hospitalapp.dto.requests.doctor.UpdateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.DoctorDto;
+import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
+import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
 import com.keskin.hospitalapp.entity.Doctor;
 import org.springframework.data.jpa.repository.EntityGraph;
 
@@ -34,5 +35,11 @@ public interface IDoctorService {
 
     @EntityGraph(attributePaths = "patients")
     List<PatientDto> getPatientsByDoctorId(Long doctorId);
+
+    void addPatientToDoctor(Long doctorId, Long patientId);
+
+    void changeDoctorPassword(Long doctorId, ChangePasswordRequest request);
+
+    void removePatientFromDoctor(Long doctorId, Long patientId);
 
 }

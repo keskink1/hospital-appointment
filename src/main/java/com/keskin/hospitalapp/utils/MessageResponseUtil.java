@@ -1,6 +1,6 @@
 package com.keskin.hospitalapp.utils;
 
-import com.keskin.hospitalapp.dto.responses.ApiResponseDto;
+import com.keskin.hospitalapp.dtos.responses.ApiResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;

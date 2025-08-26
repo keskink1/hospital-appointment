@@ -1,4 +1,4 @@
-package com.keskin.hospitalapp.dto.requests.patient;
+package com.keskin.hospitalapp.dtos.requests.patient;
 
 
 import jakarta.validation.constraints.*;
@@ -20,6 +20,10 @@ public class CreatePatientRequestDto {
     @NotBlank(message = "Surname cannot be blank")
     @Size(min = 2, max = 50, message = "Surname must be between 2 and 50 characters")
     private String surname;
+
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 6, max = 50, message = "Password must be between 6 and 50 characters")
+    private String password;
 
     @NotBlank(message = "National ID cannot be blank")
     @Pattern(regexp = "\\d{11}", message = "National ID must be exactly 11 digits")

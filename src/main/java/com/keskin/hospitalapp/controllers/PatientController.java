@@ -1,9 +1,9 @@
 package com.keskin.hospitalapp.controllers;
 
-import com.keskin.hospitalapp.dto.PatientDto;
-import com.keskin.hospitalapp.dto.requests.patient.CreatePatientRequestDto;
-import com.keskin.hospitalapp.dto.requests.patient.UpdatePatientRequestDto;
-import com.keskin.hospitalapp.dto.responses.ApiResponseDto;
+import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.requests.patient.CreatePatientRequestDto;
+import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
+import com.keskin.hospitalapp.dtos.responses.ApiResponseDto;
 import com.keskin.hospitalapp.service.IPatientService;
 import com.keskin.hospitalapp.utils.MessageResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -98,8 +98,8 @@ public class PatientController {
             @ApiResponse(responseCode = "404", description = "Patient not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @DeleteMapping("/deletePatient/{id}")
-    public ResponseEntity<ApiResponseDto<Void>> deletePatient(@PathVariable Long id, Locale locale){
+    @PatchMapping("/deletePatient/{id}")
+    public ResponseEntity<ApiResponseDto<Void>> deletePatient(@PathVariable Long id){
         patientService.deletePatient(id);
 
         return ResponseEntity.noContent().build();

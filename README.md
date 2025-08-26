@@ -30,6 +30,18 @@ Spring Boot application for managing doctors and patients in a hospital system.
 Currently, the application **does not implement authentication or JWT**.  
 All APIs are publicly accessible. Authentication and authorization will be added in a future update.
 
+## Internationalization (i18n)
+
+The application supports **internationalization (i18n)**.  
+All messages and API responses are localized based on the user's locale.  
+Currently, messages are stored in properties files and handled via `MessageResponseUtil`.
+
+## Audit / Logging
+
+The application includes **audit logging** for tracking important actions such as creating, updating, or deleting doctors and patients.  
+All audit logs can be used for monitoring, debugging, and compliance purposes.
+
+
 
 ## API Endpoints
 

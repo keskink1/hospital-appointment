@@ -1,4 +1,4 @@
-package com.keskin.hospitalapp.dto.requests.patient;
+package com.keskin.hospitalapp.dtos.requests.patient;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
