@@ -21,15 +21,6 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "surname")
-    private String surname;
-
-    @Column(name = "phone_number", length = 10, unique = true, nullable = false)
-    private String phoneNumber;
-
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

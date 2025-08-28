@@ -47,17 +47,6 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(RegistrationNumberAlreadyExists.class)
-    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(RegistrationNumberAlreadyExists exception, WebRequest webRequest) {
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-                webRequest.getDescription(false),
-                HttpStatus.CONFLICT,
-                exception.getMessage(),
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONFLICT);
-    }
-
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
@@ -69,31 +58,9 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> handleEmailAlreadyExistsException(EmailAlreadyExistsException exception, WebRequest webRequest) {
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-                webRequest.getDescription(false),
-                HttpStatus.CONFLICT,
-                exception.getMessage(),
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(PhoneNumberAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> handlePhoneAlreadyExistsException(PhoneNumberAlreadyExistsException exception, WebRequest webRequest) {
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-                webRequest.getDescription(false),
-                HttpStatus.CONFLICT,
-                exception.getMessage(),
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(DoctorHasPatientsException.class)
-    public ResponseEntity<ErrorResponseDto> handleDoctorHasPatientsException(
-            DoctorHasPatientsException exception, WebRequest webRequest) {
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDto> handleResourceAlreadyExistsException(
+            ResourceAlreadyExistsException exception, WebRequest webRequest) {
 
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
@@ -104,14 +71,4 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(NationalIdAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> handleNationalIdAlreadyExistsException(NationalIdAlreadyExistsException exception, WebRequest webRequest) {
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-                webRequest.getDescription(false),
-                HttpStatus.CONFLICT,
-                exception.getMessage(),
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONFLICT);
-    }
 }

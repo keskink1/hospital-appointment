@@ -7,7 +7,7 @@ import com.keskin.hospitalapp.exceptions.*;
 import com.keskin.hospitalapp.mapper.PatientMapper;
 import com.keskin.hospitalapp.repositories.PatientRepository;
 import com.keskin.hospitalapp.services.IPatientService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PatientServiceImpl implements IPatientService {
 
     private final PatientRepository patientRepository;
@@ -49,7 +49,7 @@ public class PatientServiceImpl implements IPatientService {
         findByPhoneNumber(requestDto.getPhoneNumber())
                 .filter(p -> !p.getId().equals(id))
                 .ifPresent(p -> {
-                    throw new PhoneNumberAlreadyExistsException("Phone number already exists! " + requestDto.getPhoneNumber());
+                    throw new ResourceAlreadyExistsException("Phone number " , requestDto.getPhoneNumber());
                 });
 
 
