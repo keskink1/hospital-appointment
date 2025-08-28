@@ -1,5 +1,6 @@
 package com.keskin.hospitalapp.mapper;
 
+import com.keskin.hospitalapp.dtos.DoctorAdminViewDto;
 import com.keskin.hospitalapp.dtos.DoctorDto;
 import com.keskin.hospitalapp.dtos.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
@@ -17,6 +18,8 @@ import java.util.Set;
 public interface DoctorMapper {
 
     DoctorDto entityToDto(Doctor doctor);
+
+    DoctorAdminViewDto entityToAdminDto(Doctor doctor);
 
     Doctor dtoToEntity(DoctorDto doctorDto);
 

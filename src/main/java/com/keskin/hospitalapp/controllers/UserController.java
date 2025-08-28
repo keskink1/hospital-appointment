@@ -17,13 +17,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Locale;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @Validated
 public class UserController {
 
     private final IUserService userService;
     private final MessageResponseUtil responseUtil;
+
 
     @PostMapping("/register/patient")
     public ResponseEntity<?> registerPatient(

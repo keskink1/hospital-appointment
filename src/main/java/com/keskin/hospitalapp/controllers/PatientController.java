@@ -22,7 +22,7 @@ import java.util.Locale;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/api/patients",  produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+@RequestMapping(value = "/patients",  produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 @Validated
 @Tag(
         name = "REST APIs for hospital app",

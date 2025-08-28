@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatePatientRequestDto extends CreateUserRequestDto {

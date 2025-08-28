@@ -1,5 +1,6 @@
 package com.keskin.hospitalapp.controllers;
 
+import com.keskin.hospitalapp.dtos.DoctorAdminViewDto;
 import com.keskin.hospitalapp.dtos.DoctorDto;
 import com.keskin.hospitalapp.dtos.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
@@ -24,7 +25,7 @@ import java.util.Locale;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/api/doctors", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+@RequestMapping(value = "/doctors", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 @Validated
 @Tag(
         name = "REST APIs for hospital app",
@@ -44,6 +45,18 @@ public class DoctorController {
                 HttpStatus.OK,
                 "doctor.request.success.message",
                 doctorDto,
+                locale
+        );
+    }
+
+    @GetMapping("/admin/getAll")
+    public ResponseEntity<ApiResponseDto<List<DoctorAdminViewDto>>> getAllAdminDoctors(Locale locale) {
+        List<DoctorAdminViewDto> doctorAdminDto = doctorService.getAllDoctorsForAdmin();
+
+        return responseUtil.createResponse(
+                HttpStatus.OK,
+                "doctor.request.success.message",
+                doctorAdminDto,
                 locale
         );
     }

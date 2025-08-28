@@ -14,10 +14,12 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Table(name = "patient")
+@PrimaryKeyJoinColumn(name = "id")
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE patient SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
-public class Patient extends User{
+public class Patient extends AppUser {
 
     @Column(name = "national_id", length = 11, unique = true, nullable = false)
     private String nationalId;
