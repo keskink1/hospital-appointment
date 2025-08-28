@@ -3,10 +3,9 @@ package com.keskin.hospitalapp.controllers;
 import com.keskin.hospitalapp.dtos.DoctorDto;
 import com.keskin.hospitalapp.dtos.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
-import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
 import com.keskin.hospitalapp.dtos.responses.ApiResponseDto;
-import com.keskin.hospitalapp.service.IDoctorService;
+import com.keskin.hospitalapp.services.IDoctorService;
 import com.keskin.hospitalapp.utils.MessageResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,26 +48,18 @@ public class DoctorController {
         );
     }
 
-    @Operation(
-            summary = "Create a new doctor",
-            description = "REST API to create a new doctor in the hospital system"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Doctor created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    @PostMapping("/createDoctor")
-    public ResponseEntity<ApiResponseDto<DoctorDto>> createDoctor(Locale locale, @Valid @RequestBody CreateDoctorRequestDto request) {
-        DoctorDto dto = doctorService.createDoctor(request);
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<DoctorDto>> getDoctor(@PathVariable Long id, Locale locale) {
+        DoctorDto dto = doctorService.getDoctorById(id);
 
         return responseUtil.createResponse(
-                HttpStatus.CREATED,
-                "doctor.created.message",
+                HttpStatus.OK,
+                "doctor.request.success.message",
                 dto,
                 locale
         );
     }
+
 
     @Operation(
             summary = "Update a doctor",

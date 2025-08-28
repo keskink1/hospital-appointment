@@ -1,5 +1,6 @@
 package com.keskin.hospitalapp.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.Set;
@@ -8,6 +9,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DoctorDto {
+    @JsonIgnore
+    private Long id;
+
     private String name;
     private String surname;
     private String registrationNumber;

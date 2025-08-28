@@ -1,43 +1,34 @@
 package com.keskin.hospitalapp.dtos.requests.doctor;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.Pattern;
+
+import com.keskin.hospitalapp.dtos.requests.user.CreateUserRequestDto;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateDoctorRequestDto {
-    @NotBlank(message = "Name cannot be empty")
-    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+public class CreateDoctorRequestDto extends CreateUserRequestDto {
+
+    @NotBlank(message = "Name cannot be blank")
+    @Size(min = 2, max = 50)
     private String name;
 
-    @NotBlank(message = "Surname cannot be empty")
-    @Size(min = 2, max = 50, message = "Surname must be between 2 and 50 characters")
+    @NotBlank(message = "Surname cannot be blank")
+    @Size(min = 2, max = 50)
     private String surname;
 
-    @NotBlank(message = "Registration number cannot be empty")
-    @Pattern(regexp = "^\\d{8}$", message = "Registration number must be 8 characters")
+    @NotBlank(message = "Registration number cannot be blank")
+    @Pattern(regexp = "\\d{8}", message = "Registration number must be 8 digits")
     private String registrationNumber;
 
-    @NotBlank(message = "Password cannot be empty")
-    @Size(min = 6, max = 50, message = "Password must be between 6 and 50 characters")
-    private String password;
-
-    @NotBlank(message = "Department cannot be empty")
+    @NotBlank(message = "Department cannot be blank")
     private String department;
 
-    @NotBlank(message = "Phone number cannot be empty")
-    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
+    @NotBlank(message = "Phone number cannot be blank")
+    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
     private String phoneNumber;
 
-    @NotBlank(message = "Email cannot be empty")
-    @Email(message = "Invalid email format")
-    private String email;
-
-    @NotBlank(message = "Proficiency cannot be empty")
+    @NotBlank(message = "Proficiency cannot be blank")
     private String proficiency;
-
 }

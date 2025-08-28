@@ -1,4 +1,4 @@
-package com.keskin.hospitalapp.entity;
+package com.keskin.hospitalapp.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE doctors SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
-public class Doctor extends BaseEntity {
+public class Doctor extends User {
 
     private static final int MAX_PATIENTS = 30;
 
@@ -26,12 +26,6 @@ public class Doctor extends BaseEntity {
 
     @Column(name = "department", nullable = false)
     private String department;
-
-    @Column(name = "phone_number", length = 10, unique = true, nullable = false)
-    private String phoneNumber;
-
-    @Column(name = "email", unique = true, nullable = false)
-    private String email;
 
     @Column(name = "proficiency")
     private String proficiency;
@@ -57,15 +51,16 @@ public class Doctor extends BaseEntity {
         this.isDeleted = true;
     }
 
-    public void changePassword(String oldPassword, String newPassword) {
-        if (!this.getPassword().equals(oldPassword)) {
+    public void changePassword(String oldPassword, String newPassword, PasswordEncoder passwordEncoder) {
+        if (!passwordEncoder.matches(oldPassword, this.getPassword())) {
             throw new IllegalArgumentException("Old password does not match");
         }
         if (newPassword == null || newPassword.isBlank() || newPassword.length() < 6) {
             throw new IllegalArgumentException("New password is invalid");
         }
-        this.setPassword(newPassword); //
+        this.setPassword(passwordEncoder.encode(newPassword));
     }
+
 
     public void addPatient(Patient patient) {
         if (patients.size() >= MAX_PATIENTS) {

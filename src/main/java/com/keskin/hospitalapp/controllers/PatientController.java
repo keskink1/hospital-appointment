@@ -1,10 +1,9 @@
 package com.keskin.hospitalapp.controllers;
 
 import com.keskin.hospitalapp.dtos.PatientDto;
-import com.keskin.hospitalapp.dtos.requests.patient.CreatePatientRequestDto;
 import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
 import com.keskin.hospitalapp.dtos.responses.ApiResponseDto;
-import com.keskin.hospitalapp.service.IPatientService;
+import com.keskin.hospitalapp.services.IPatientService;
 import com.keskin.hospitalapp.utils.MessageResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,27 +41,6 @@ public class PatientController {
                 HttpStatus.OK,
                 "patient.request.success.message",
                 dto,
-                locale
-        );
-    }
-
-    @Operation(
-            summary = "Create a new patient",
-            description = "REST API to create a new patient in the hospital system"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Patient created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    @PostMapping("/createPatient")
-    public ResponseEntity<ApiResponseDto<PatientDto>> createPatient(@Valid @RequestBody CreatePatientRequestDto dto, Locale locale){
-        PatientDto patientDto = patientService.createNewPatient(dto);
-
-        return responseUtil.createResponse(
-                HttpStatus.CREATED,
-                "patient.create.success.message",
-                patientDto,
                 locale
         );
     }

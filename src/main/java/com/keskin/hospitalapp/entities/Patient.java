@@ -1,4 +1,4 @@
-package com.keskin.hospitalapp.entity;
+package com.keskin.hospitalapp.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,13 +17,10 @@ import java.util.Set;
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE patient SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
-public class Patient extends BaseEntity{
+public class Patient extends User{
 
     @Column(name = "national_id", length = 11, unique = true, nullable = false)
     private String nationalId;
-
-    @Column(name = "phone_number", unique = true, length = 10)
-    private String phoneNumber;
 
     @Column(name = "birth_date")
     private LocalDate birthDate;
