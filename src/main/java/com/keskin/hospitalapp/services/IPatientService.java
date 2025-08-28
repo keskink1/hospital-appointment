@@ -1,9 +1,8 @@
-package com.keskin.hospitalapp.service;
+package com.keskin.hospitalapp.services;
 
 import com.keskin.hospitalapp.dtos.PatientDto;
-import com.keskin.hospitalapp.dtos.requests.patient.CreatePatientRequestDto;
 import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
-import com.keskin.hospitalapp.entity.Patient;
+import com.keskin.hospitalapp.entities.Patient;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +14,6 @@ public interface IPatientService {
     Optional<Patient> findPatientByNationalId(String nationalId);
 
     Optional<Patient> findByPhoneNumber(String phoneNumber);
-
-    PatientDto createNewPatient(CreatePatientRequestDto requestDto);
 
     PatientDto updatePatient(UpdatePatientRequestDto requestDto, Long id);
 

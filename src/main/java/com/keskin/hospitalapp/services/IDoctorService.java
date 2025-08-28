@@ -1,11 +1,10 @@
-package com.keskin.hospitalapp.service;
+package com.keskin.hospitalapp.services;
 
 import com.keskin.hospitalapp.dtos.DoctorDto;
 import com.keskin.hospitalapp.dtos.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
-import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
-import com.keskin.hospitalapp.entity.Doctor;
+import com.keskin.hospitalapp.entities.Doctor;
 import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.List;
@@ -21,13 +20,13 @@ public interface IDoctorService {
 
     List<Doctor> getDoctorsByProficiency(String proficiency);
 
+    DoctorDto getDoctorById(Long id);
+
     Optional<Doctor> findByRegistrationNumber(String registrationNumber);
 
     Optional<Doctor> findByEmail(String email);
 
     Optional<Doctor> findByPhoneNumber(String phoneNumber);
-
-    DoctorDto createDoctor(CreateDoctorRequestDto request);
 
     DoctorDto updateDoctor(UpdateDoctorRequestDto request, Long id);
 

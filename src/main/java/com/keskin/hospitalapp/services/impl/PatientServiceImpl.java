@@ -1,13 +1,12 @@
-package com.keskin.hospitalapp.service.impl;
+package com.keskin.hospitalapp.services.impl;
 
 import com.keskin.hospitalapp.dtos.PatientDto;
-import com.keskin.hospitalapp.dtos.requests.patient.CreatePatientRequestDto;
 import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
-import com.keskin.hospitalapp.entity.Patient;
+import com.keskin.hospitalapp.entities.Patient;
 import com.keskin.hospitalapp.exceptions.*;
 import com.keskin.hospitalapp.mapper.PatientMapper;
-import com.keskin.hospitalapp.repository.PatientRepository;
-import com.keskin.hospitalapp.service.IPatientService;
+import com.keskin.hospitalapp.repositories.PatientRepository;
+import com.keskin.hospitalapp.services.IPatientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,21 +22,10 @@ public class PatientServiceImpl implements IPatientService {
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
 
-    private void checkUniquePatientFields(CreatePatientRequestDto request) {
-        findPatientByNationalId(request.getNationalId())
-                .ifPresent(d -> {
-                    throw new NationalIdAlreadyExistsException("National id number already exists! " + request.getNationalId());
-                });
-
-        findByPhoneNumber(request.getPhoneNumber())
-                .ifPresent(d -> {
-                    throw new PhoneNumberAlreadyExistsException("Phone number already exists! " + request.getPhoneNumber());
-                });
-    }
 
     @Override
     public List<PatientDto> getAllPatients() {
-        return patientRepository.findByIsDeletedFalse()
+        return patientRepository.findAll()
                 .stream()
                 .map(patientMapper::entityToDto)
                 .toList();
@@ -45,28 +33,17 @@ public class PatientServiceImpl implements IPatientService {
 
     @Override
     public Optional<Patient> findPatientByNationalId(String nationalId) {
-        return patientRepository.findByNationalIdAndIsDeletedFalse(nationalId);
+        return patientRepository.findByNationalId(nationalId);
     }
 
     @Override
     public Optional<Patient> findByPhoneNumber(String phoneNumber) {
-        return patientRepository.findByPhoneNumberAndIsDeletedFalse(phoneNumber);
-
-    }
-
-    @Override
-    public PatientDto createNewPatient(CreatePatientRequestDto requestDto) {
-        checkUniquePatientFields(requestDto);
-        Patient patient = patientMapper.createRequestDtoToEntity(requestDto);
-
-        Patient savedPatient = patientRepository.save(patient);
-
-        return patientMapper.entityToDto(savedPatient);
+        return patientRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Override
     public PatientDto updatePatient(UpdatePatientRequestDto requestDto, Long id) {
-        Patient patient = patientRepository.findByIdAndIsDeletedFalse(id)
+        Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", id.toString()));
 
         findByPhoneNumber(requestDto.getPhoneNumber())
@@ -86,7 +63,7 @@ public class PatientServiceImpl implements IPatientService {
 
     @Override
     public void deletePatient(Long id) {
-        Patient patient = patientRepository.findByIdAndIsDeletedFalse(id)
+        Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", id.toString()));
 
         patient.softDelete();

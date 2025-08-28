@@ -1,29 +1,24 @@
 package com.keskin.hospitalapp.dtos.requests.patient;
 
-
+import com.keskin.hospitalapp.dtos.requests.user.CreateUserRequestDto;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePatientRequestDto {
+public class CreatePatientRequestDto extends CreateUserRequestDto {
 
     @NotBlank(message = "Name cannot be blank")
-    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+    @Size(min = 2, max = 50)
     private String name;
 
     @NotBlank(message = "Surname cannot be blank")
-    @Size(min = 2, max = 50, message = "Surname must be between 2 and 50 characters")
+    @Size(min = 2, max = 50)
     private String surname;
-
-    @NotBlank(message = "Password cannot be empty")
-    @Size(min = 6, max = 50, message = "Password must be between 6 and 50 characters")
-    private String password;
 
     @NotBlank(message = "National ID cannot be blank")
     @Pattern(regexp = "\\d{11}", message = "National ID must be exactly 11 digits")

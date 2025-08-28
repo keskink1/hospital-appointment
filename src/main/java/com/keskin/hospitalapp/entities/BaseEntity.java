@@ -1,4 +1,4 @@
-package com.keskin.hospitalapp.entity;
+package com.keskin.hospitalapp.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,8 +27,8 @@ public abstract class BaseEntity {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "phone_number", length = 10, unique = true, nullable = false)
+    private String phoneNumber;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
@@ -45,5 +45,6 @@ public abstract class BaseEntity {
     @LastModifiedBy
     @Column(name = "updated_by")
     private String updatedBy;
+
 
 }

@@ -1,19 +1,19 @@
-package com.keskin.hospitalapp.service.impl;
+package com.keskin.hospitalapp.services.impl;
 
 import com.keskin.hospitalapp.dtos.DoctorDto;
 import com.keskin.hospitalapp.dtos.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
-import com.keskin.hospitalapp.dtos.requests.doctor.CreateDoctorRequestDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
-import com.keskin.hospitalapp.entity.Doctor;
-import com.keskin.hospitalapp.entity.Patient;
+import com.keskin.hospitalapp.entities.Doctor;
+import com.keskin.hospitalapp.entities.Patient;
 import com.keskin.hospitalapp.exceptions.*;
 import com.keskin.hospitalapp.mapper.DoctorMapper;
 import com.keskin.hospitalapp.mapper.PatientMapper;
-import com.keskin.hospitalapp.repository.DoctorRepository;
-import com.keskin.hospitalapp.repository.PatientRepository;
-import com.keskin.hospitalapp.service.IDoctorService;
+import com.keskin.hospitalapp.repositories.DoctorRepository;
+import com.keskin.hospitalapp.repositories.PatientRepository;
+import com.keskin.hospitalapp.services.IDoctorService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,23 +30,8 @@ public class DoctorServiceImpl implements IDoctorService {
     private final PatientRepository patientRepository;
     private final DoctorMapper doctorMapper;
     private final PatientMapper patientMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    private void checkUniqueDoctorFields(CreateDoctorRequestDto request) {
-        findByRegistrationNumber(request.getRegistrationNumber())
-                .ifPresent(d -> {
-                    throw new RegistrationNumberAlreadyExists("Registration number already exists! " + request.getRegistrationNumber());
-                });
-
-        findByEmail(request.getEmail())
-                .ifPresent(d -> {
-                    throw new EmailAlreadyExistsException("Email already exists! " + request.getEmail());
-                });
-
-        findByPhoneNumber(request.getPhoneNumber())
-                .ifPresent(d -> {
-                    throw new PhoneNumberAlreadyExistsException("Phone number already exists! " + request.getPhoneNumber());
-                });
-    }
 
     private void checkUniqueDoctorFieldsForUpdate(UpdateDoctorRequestDto request, Long doctorId) {
         findByEmail(request.getEmail())
@@ -66,7 +51,7 @@ public class DoctorServiceImpl implements IDoctorService {
     @Override
     public List<DoctorDto> getAllDoctors() {
 
-        return doctorRepository.findByIsDeletedFalse()
+        return doctorRepository.findAll()
                 .stream()
                 .map(doctorMapper::entityToDto)
                 .toList();
@@ -74,46 +59,45 @@ public class DoctorServiceImpl implements IDoctorService {
 
     @Override
     public Optional<Doctor> getDoctorByPhoneNumber(String phoneNumber) {
-        return doctorRepository.findByPhoneNumberAndIsDeletedFalse(phoneNumber);
+        return doctorRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Override
     public List<Doctor> getDoctorsByDepartment(String department) {
-        return doctorRepository.findByDepartmentAndIsDeletedFalse(department);
+        return doctorRepository.findByDepartment(department);
     }
 
     @Override
     public List<Doctor> getDoctorsByProficiency(String proficiency) {
-        return doctorRepository.findByProficiencyAndIsDeletedFalse(proficiency);
+        return doctorRepository.findByProficiency(proficiency);
     }
 
-
     @Override
-    public DoctorDto createDoctor(CreateDoctorRequestDto request) {
-        checkUniqueDoctorFields(request);
-        Doctor doctor = doctorMapper.createRequestToEntity(request);
+    public DoctorDto getDoctorById(Long id) {
+        Doctor doctor = doctorRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Doctor", "ID", id.toString()));
 
-        return doctorMapper.entityToDto(doctorRepository.save(doctor));
+        return doctorMapper.entityToDto(doctor);
     }
 
     @Override
     public Optional<Doctor> findByRegistrationNumber(String registrationNumber) {
-        return doctorRepository.findByRegistrationNumberAndIsDeletedFalse(registrationNumber);
+        return doctorRepository.findByRegistrationNumber(registrationNumber);
     }
 
     @Override
     public Optional<Doctor> findByEmail(String email) {
-        return doctorRepository.findByEmailAndIsDeletedFalse(email);
+        return doctorRepository.findByEmail(email);
     }
 
     @Override
     public Optional<Doctor> findByPhoneNumber(String phoneNumber) {
-        return doctorRepository.findByPhoneNumberAndIsDeletedFalse(phoneNumber);
+        return doctorRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Override
     public DoctorDto updateDoctor(UpdateDoctorRequestDto request, Long id) {
-        Doctor doctor = doctorRepository.findByIdAndIsDeletedFalse(id)
+        Doctor doctor = doctorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", id.toString()));
 
         checkUniqueDoctorFieldsForUpdate(request, id);
@@ -162,7 +146,7 @@ public class DoctorServiceImpl implements IDoctorService {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", doctorId.toString()));
 
-        doctor.changePassword(request.getOldPassword(), request.getNewPassword());
+        doctor.changePassword(request.getOldPassword(), request.getNewPassword(), passwordEncoder);
         doctorRepository.save(doctor);
     }
 
