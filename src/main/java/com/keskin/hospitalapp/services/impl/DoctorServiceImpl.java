@@ -1,8 +1,8 @@
 package com.keskin.hospitalapp.services.impl;
 
-import com.keskin.hospitalapp.dtos.DoctorAdminViewDto;
-import com.keskin.hospitalapp.dtos.DoctorDto;
-import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.dto.DoctorAdminViewDto;
+import com.keskin.hospitalapp.dtos.dto.DoctorDto;
+import com.keskin.hospitalapp.dtos.dto.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
 import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
 import com.keskin.hospitalapp.entities.Doctor;
