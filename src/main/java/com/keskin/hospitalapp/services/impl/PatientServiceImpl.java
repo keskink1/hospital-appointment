@@ -1,6 +1,6 @@
 package com.keskin.hospitalapp.services.impl;
 
-import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.dto.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
 import com.keskin.hospitalapp.entities.Patient;
 import com.keskin.hospitalapp.exceptions.*;

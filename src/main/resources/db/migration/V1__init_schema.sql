@@ -3,16 +3,16 @@ USE hospital_app_db;
 
 CREATE TABLE user (
                       id BIGINT NOT NULL AUTO_INCREMENT,
+                      role VARCHAR(50) NOT NULL,
+                      name VARCHAR(255) NOT NULL,
+                      surname VARCHAR(255) NOT NULL,
+                      email VARCHAR(255) NOT NULL UNIQUE,
+                      password VARCHAR(255) NOT NULL,
                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                       created_by VARCHAR(255),
                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                       updated_by VARCHAR(255),
-                      email VARCHAR(255) NOT NULL UNIQUE,
-                      password VARCHAR(255) NOT NULL,
                       phone_number CHAR(10) NOT NULL UNIQUE,
-                      role VARCHAR(50) NOT NULL,
-                      name VARCHAR(255) NOT NULL,
-                      surname VARCHAR(255) NOT NULL,
                       PRIMARY KEY (id)
 );
 

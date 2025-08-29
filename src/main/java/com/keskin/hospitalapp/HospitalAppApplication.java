@@ -1,5 +1,6 @@
 package com.keskin.hospitalapp;
 
+
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -23,5 +24,4 @@ public class HospitalAppApplication {
     public static void main(String[] args) {
         SpringApplication.run(HospitalAppApplication.class, args);
     }
-
 }

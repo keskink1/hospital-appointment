@@ -1,4 +1,4 @@
-package com.keskin.hospitalapp.dtos;
+package com.keskin.hospitalapp.dtos.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

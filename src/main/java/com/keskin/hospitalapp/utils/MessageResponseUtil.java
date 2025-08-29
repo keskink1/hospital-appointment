@@ -12,9 +12,9 @@ import java.util.Locale;
 
 @Component
 @AllArgsConstructor
-public class MessageResponseUtil {
+public final class MessageResponseUtil {
 
-    private final MessageSource messageSource;
+    private MessageSource messageSource;
 
     public <T> ResponseEntity<ApiResponseDto<T>> createResponse(HttpStatus status, String messageKey, T data, Locale locale) {
         String message = messageSource.getMessage(messageKey, null, locale);

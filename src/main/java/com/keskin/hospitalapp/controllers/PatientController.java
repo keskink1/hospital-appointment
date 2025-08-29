@@ -1,6 +1,6 @@
 package com.keskin.hospitalapp.controllers;
 
-import com.keskin.hospitalapp.dtos.PatientDto;
+import com.keskin.hospitalapp.dtos.dto.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.patient.UpdatePatientRequestDto;
 import com.keskin.hospitalapp.dtos.responses.ApiResponseDto;
 import com.keskin.hospitalapp.services.IPatientService;
