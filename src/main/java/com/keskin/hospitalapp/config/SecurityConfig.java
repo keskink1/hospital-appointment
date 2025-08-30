@@ -61,12 +61,12 @@ public class SecurityConfig {
 
                                 // Only admin
                                 .requestMatchers(HttpMethod.GET, "/doctors/admin/getAll").hasRole(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.PUT, "/doctors/updateDoctor/{id}").hasRole(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.DELETE, "/doctors/deleteDoctor/{id}").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT, "/doctors/update/{id}").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/doctors/delete/{id}").hasRole(Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.PATCH, "/doctors/{id}/change-password").hasRole(Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.GET, "/doctors/{doctorId}/patients").hasRole(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "/doctors/{doctorId}/patients/{patientId}").hasRole(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.DELETE, "/doctors/{doctorId}/patients/{patientId}").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST, "/doctors/{doctorId}/patients").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/doctors/{doctorId}/patients").hasRole(Role.ADMIN.name())
                                 .requestMatchers("/patients/**").hasRole(Role.ADMIN.name())
 
                                 // Authenticated

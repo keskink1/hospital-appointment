@@ -68,14 +68,14 @@ This application uses a JWT-based authentication system.
 
 ### **Patient Endpoints**
 
-| Method | Endpoint | Description | Access |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/patients/me` | Retrieves the authenticated patient's own details. | `USER` |
-| `PUT` | `/patients/me` | Updates the authenticated patient's own details. | `USER` |
-| `DELETE` | `/patients/me` | Soft-deletes the authenticated patient's own account. | `USER` |
-| `GET` | `/patients/{id}` | Get a patient by ID. | `Auth` |
-| `POST` | `/doctors/{doctorId}/patients/{patientId}` | Adds a patient to a doctor. | `ADMIN` |
-| `DELETE` | `/doctors/{doctorId}/patients/{patientId}` | Removes a patient from a doctor. | `ADMIN` |
+| Method | Endpoint                                | Description | Access |
+| :--- |:----------------------------------------| :--- | :--- |
+| `GET` | `/patients/me`                          | Retrieves the authenticated patient's own details. | `USER` |
+| `PUT` | `/patients/me`                          | Updates the authenticated patient's own details. | `USER` |
+| `DELETE` | `/patients/me`                          | Soft-deletes the authenticated patient's own account. | `USER` |
+| `GET` | `/patients/{id}`                        | Get a patient by ID. | `Auth` |
+| `POST` | `/doctors/{doctorId}/patients/`         | Adds a patient to a doctor. | `ADMIN` |
+| `DELETE` | `/doctors/{doctorId}/patients/`         | Removes a patient from a doctor. | `ADMIN` |
 
 ---
 
