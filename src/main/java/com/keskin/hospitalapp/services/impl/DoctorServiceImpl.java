@@ -146,6 +146,10 @@ public class DoctorServiceImpl implements IDoctorService {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", patientId.toString()));
 
+        if (doctor.getPatients().contains(patient)) {
+            throw new ResourceAlreadyExistsException("Patient", patient.getName()+ " " + patient.getSurname());
+        }
+
         doctor.addPatient(patient);
         doctorRepository.save(doctor);
     }
@@ -162,10 +166,14 @@ public class DoctorServiceImpl implements IDoctorService {
     @Override
     public void removePatientFromDoctor(Long doctorId, Long patientId) {
         Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", doctorId.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor", "ID", doctorId.toString()));
 
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", patientId.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("Patient", "ID", patientId.toString()));
+
+        if (!doctor.getPatients().contains(patient)) {
+            throw new ResourceNotFoundException("Patient", "ID", patient.getId().toString());
+        }
 
         doctor.removePatient(patient);
         doctorRepository.save(doctor);

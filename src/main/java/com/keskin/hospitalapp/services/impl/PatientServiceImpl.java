@@ -70,5 +70,4 @@ public class PatientServiceImpl implements IPatientService {
         patientRepository.save(patient);
     }
 
-
 }

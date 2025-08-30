@@ -5,8 +5,10 @@ import com.keskin.hospitalapp.dtos.dto.DoctorDto;
 import com.keskin.hospitalapp.dtos.dto.PatientDto;
 import com.keskin.hospitalapp.dtos.requests.doctor.ChangePasswordRequest;
 import com.keskin.hospitalapp.dtos.requests.doctor.UpdateDoctorRequestDto;
+import com.keskin.hospitalapp.dtos.requests.patient.PatientIdRequestDto;
 import com.keskin.hospitalapp.dtos.responses.ApiResponseDto;
 import com.keskin.hospitalapp.services.IDoctorService;
+import com.keskin.hospitalapp.services.IPatientService;
 import com.keskin.hospitalapp.utils.MessageResponseUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -84,7 +86,7 @@ public class DoctorController {
             @ApiResponse(responseCode = "404", description = "Doctor not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PutMapping("/updateDoctor/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponseDto<DoctorDto>> updateDoctor(Locale locale, @Valid @RequestBody UpdateDoctorRequestDto request, @PathVariable Long id) {
         DoctorDto dto = doctorService.updateDoctor(request, id);
 
@@ -105,7 +107,7 @@ public class DoctorController {
             @ApiResponse(responseCode = "404", description = "Doctor not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @DeleteMapping("/deleteDoctor/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponseDto<Void>> deleteDoctor(@PathVariable Long id) {
         doctorService.deleteDoctor(id);
 
@@ -146,21 +148,21 @@ public class DoctorController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{doctorId}/patients/{patientId}")
+    @PostMapping("/{doctorId}/patients")
     public ResponseEntity<Void> addPatient(
             @PathVariable Long doctorId,
-            @PathVariable Long patientId
+            @Valid @RequestBody PatientIdRequestDto request
     ) {
-        doctorService.addPatientToDoctor(doctorId, patientId);
-        return ResponseEntity.noContent().build();
+        doctorService.addPatientToDoctor(doctorId, request.getPatientId());
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{doctorId}/patients/{patientId}")
+    @DeleteMapping("/{doctorId}/patients")
     public ResponseEntity<Void> removePatient(
             @PathVariable Long doctorId,
-            @PathVariable Long patientId
+            @Valid @RequestBody PatientIdRequestDto request
     ) {
-        doctorService.removePatientFromDoctor(doctorId, patientId);
+        doctorService.removePatientFromDoctor(doctorId, request.getPatientId());
         return ResponseEntity.noContent().build();
     }
 
