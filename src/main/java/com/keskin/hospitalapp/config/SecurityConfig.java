@@ -52,28 +52,29 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(c -> c
-                        // All access / no auth
-                        .requestMatchers(HttpMethod.POST, "/users/register/patient").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/register/doctor").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/doctors", "/doctors/{id}").permitAll()
+                                // All access / no auth
+                                .requestMatchers(HttpMethod.POST, "/users/register/patient").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/users/register/doctor").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/doctors", "/doctors/{id}").permitAll()
 
-                        // Only admin
-                        .requestMatchers(HttpMethod.GET, "/doctors/admin/getAll").hasRole(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.PUT, "/doctors/updateDoctor/{id}").hasRole(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.DELETE, "/doctors/deleteDoctor/{id}").hasRole(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.PATCH, "/doctors/{id}/change-password").hasRole(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/doctors/{doctorId}/patients").hasRole(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.POST, "/doctors/{doctorId}/patients/{patientId}").hasRole(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.DELETE, "/doctors/{doctorId}/patients/{patientId}").hasRole(Role.ADMIN.name())
-                        .requestMatchers("/patients/**").hasRole(Role.ADMIN.name())
+                                // Only admin
+                                .requestMatchers(HttpMethod.GET, "/doctors/admin/getAll").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PUT, "/doctors/updateDoctor/{id}").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/doctors/deleteDoctor/{id}").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PATCH, "/doctors/{id}/change-password").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.GET, "/doctors/{doctorId}/patients").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST, "/doctors/{doctorId}/patients/{patientId}").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/doctors/{doctorId}/patients/{patientId}").hasRole(Role.ADMIN.name())
+                                .requestMatchers("/patients/**").hasRole(Role.ADMIN.name())
 
-                        // Authenticated
-                        .requestMatchers("/auth/me").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/patients/{id}").authenticated()
+                                // Authenticated
+                                .requestMatchers("/auth/me").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/patients/me").authenticated()
+                                .requestMatchers(HttpMethod.DELETE, "/patients/me").authenticated()
 
-                        .anyRequest().denyAll()
+                                .anyRequest().denyAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(c -> {
